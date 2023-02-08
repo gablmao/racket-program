@@ -8,18 +8,20 @@
 
 
 ;the textfield to input the starting station and destination station
-(define beginning-box (new text-field%
+(define beginning-box (new choice%
                         [parent main-window]
                         [vert-margin 10]
                         [horiz-margin 10]
                         [label "Start Station"]
+                        [choices (list "A" "B" "C" "D" "E" "F" "G" "H")]
                         )
   )
-(define destination-box (new text-field%
+(define destination-box (new choice%
                          [parent main-window]
                          [vert-margin 10]
                          [horiz-margin 10]
                          [label "End Station"]
+                         [choices (list "A" "B" "C" "D" "E" "F" "G" "H")]
                          )
   )
 
@@ -28,8 +30,8 @@
                         [parent main-window]
                         [label "Clear"]
                         [callback (λ (o e)
-                                    (send beginning-box set-value "")
-                                    (send destination-box set-value "")
+                                    (send beginning-box set-string-selection "A")
+                                    (send destination-box set-string-selection "A")
                                     )
                                   ]
                         )
@@ -41,7 +43,7 @@
                   [parent main-window]
                   [label "Create Plan"]
                   [callback (λ (button event)
-                              (send route-msg set-label (new-station (send beginning-box get-value) (send destination-box get-value)))
+                              (send route-msg set-label (new-station (send beginning-box get-string-selection) (send destination-box get-string-selection)))
                               )
                             ]
                   )
@@ -75,12 +77,12 @@
                         ((> start-index end-index)
                          (define temp-list1 (member end stations))
                          (define temp-list2 (member start (reverse temp-list1)))
-                         (string-join temp-list2 " ")
+                         (string-join temp-list2 " -> ")
                          )
                         ((< start-index end-index)
                          (define temp-list1 (member start stations))
                          (define temp-list2 (member end (reverse temp-list1)))
-                         (string-join (reverse temp-list2) " ")
+                         (string-join (reverse temp-list2) " -> ")
                          )
                         ((= start-index end-index)
                          "You're already here :DDDDDDDDDDDDD"
