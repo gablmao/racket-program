@@ -2,7 +2,7 @@
 ;GUI starts here
 (define main-window (new frame%
                    [label "Travel"]
-                   [width 300] [height 300]
+                   [width 500] [height 300]
                    )
   )
 
@@ -32,8 +32,8 @@
                         [parent main-window]
                         [label "Clear"]
                         [callback (λ (o e)
-                                    (send beginning-box set-string-selection "A")
-                                    (send destination-box set-string-selection "A")
+                                    (send beginning-box set-string-selection "Watthamstow Central")
+                                    (send destination-box set-string-selection "Watthamstow Central")
                                     )
                                   ]
                         )
@@ -59,6 +59,7 @@
 
 (define route-msg (new message%
                        [parent main-window]
+                       [auto-resize #t]
                        [label "No route generated yet..."]
                        )
   )
@@ -187,7 +188,7 @@
                                                            (Remove newRoute (first newRoute))
                                                            (Remove route (first newRoute) )
                                                            (- distance (connection-distance  (first newRoute)))))
-                        (else "Route can't be found"))))))
+                        (else (list "Route can't be found")))))))
 
 
 
@@ -199,6 +200,7 @@
                       ((number? (first (GetRoute (ToStation current) (ToStation end) 0 '() Route 0)))
                        (list-update (GetRoute (ToStation current) (ToStation end) 0 '() Route 0) 0 number->string)
                        )
+                      (else (list "Already There"))
                       )
                     )
   )
